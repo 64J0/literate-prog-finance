@@ -1,4 +1,4 @@
-#+TITLE: Literate Programming and Finances
+#+TITLE: Literate Programming in Emacs and Finances
 #+DATE: [2022-11-02 qua]
 #+AUTHOR: Vinícius Gajo
 #+STARTUP: latexpreview
@@ -20,9 +20,9 @@ programming tools are used by millions of programmers today.
 This repository holds an example of literate programming used in the finances
 landscape, implemented with GNU Emacs and some other packages (Org-mode).
 
-The macros used in the program are written in F#, which is a functional-first,
-general purpose, strongly typed, sister language of C# and other .NET
-implementations.
+The macros used in the program are written in *Python*, a very popular language,
+and *F#*, which is a functional-first, general purpose, strongly typed, sister
+language of C# and other .NET implementations.
 
 Also, if you want to really understand and appreciate this document, make sure
 that you can compile some LaTeX blocks which are presented there. Those blocks
@@ -37,7 +37,7 @@ If you want to see the compiled version of this document in PDF, check this
 When creating this example I used those software versions:
 
 + GNU Emacs 28.2.
-+ The ~.emacs~ configuration mentioned in this repository release: [[https://github.com/64J0/Emacs-config/tree/v1.0.0][link]].
++ The ~.emacs~ configuration mentioned in this repository release: [[https://github.com/64J0/Emacs-config/releases/tag/v1.0.1][link]].
 
 Disclaimer 1: Some configurations will not work, even if you have the same
 ~.emacs~ file, since it will depend on external packages (LaTeX specific
@@ -53,11 +53,11 @@ In this example, we're going to tackle an investment problem, which could be
 stated as:
 
 + Suppose you're going to invest your money into an application that gives you
-  "h%" of this money each month, as long as you keep it in this
-  investment. During the time you keep it there, you can also add more money (in
-  a month basis), and this money will follow the same rule stated before, but
-  considering that it will start producing more only in the next month that you
-  added it.
+  "h%" of this money invested each month, as long as you keep it there (normal
+  investment scenario). During the time you keep it there, you can also add more
+  money (in a month basis), and this money will follow the same rule stated
+  before, but considering that it will start producing more only in the next
+  month that you added it.
 
 To make it more clear, let's use some mathematical notation.
 
@@ -69,7 +69,7 @@ z_0 = x_0
 \end{equation}
 
 Then, in the second month, the initial money will increase by a quantity given
-by $h$ and you're going to increment the value adding $y_0$. So, in the second
+by $h$ and you're going to increment the value adding $y$. So, in the second
 month, your money will be:
 
 \begin{equation} \tag{2}
@@ -131,7 +131,7 @@ the Python block, which implements the same algorithm.
 
 ** Python Solution
 
-When using Python, it's a bit tricky to make it to show the result of the print
+When using Python, it's a bit tricky to make it show the result of the print
 statement. In order to fix it, I found [[https://emacs.stackexchange.com/a/17928][this answer]] in Stack Exchange pointing to
 the right header configuration for the block.
 
@@ -244,17 +244,17 @@ organizations that adopt it, since it's easier to keep the configuration
 documented using it, which makes it easier to onboard other people into the
 system.
 
-The idea to create this repository I got after start reading the book "O homem
-mais rico da Babilônia" from George S. Clason. It made me start thinking more
-about finances, and due to it I decided to calculate how much money I would have
-in some hypothetical scenarios, considering some tips from the author.
+I got the idea to create this repository after reading the book "O homem mais
+rico da Babilônia" by George S. Clason. It made me start thinking more about
+finances, and due to it, I decided to calculate how much money I would have in
+some hypothetical scenarios, considering some tips from the author.
 
 While writing this document I noticed how little I know about org-mode and
-babel. Due to it, I started looking deeper into the documentation, trying to
+babel. Then, I started looking deeper into the documentation, trying to
 understand why some parts of the code did not work (F# part).
 
 It was a very cool and challenging situation, and my goal is to keep digging
-into this feature in order to really understand how it works.
+into this feature in order to really understand how it works and fix my setup.
 
 With this in mind, I plan to update this file in the future.
 
