@@ -18,9 +18,19 @@ programming tools are used by millions of programmers today.
 #+END_QUOTE
 
 This repository holds an example of literate programming used in the finances
-landscape. The macros used in the program are written in F#, which is a
-functional-first, general purpose, strongly typed, sister language of C# and
-other .NET implementations.
+landscape, implemented with GNU Emacs and some other packages (Org-mode).
+
+The macros used in the program are written in F#, which is a functional-first,
+general purpose, strongly typed, sister language of C# and other .NET
+implementations.
+
+Also, if you want to really understand and appreciate this document, make sure
+that you can compile some LaTeX blocks which are presented there. Those blocks
+were added with the goal of making it easier to understand the problem and the
+mathematical rationale for the function created later.
+
+If you want to see the compiled version of this document in PDF, check this
+[[./README.pdf][link]].
 
 ** Setup
 
@@ -30,8 +40,8 @@ When creating this example I used those software versions:
 + The ~.emacs~ configuration mentioned in this repository release: [[https://github.com/64J0/Emacs-config/tree/v1.0.0][link]].
 
 Disclosure: some configurations will not work, even if you have the same
-~.emacs~ file since it will depend on external packages (LaTeX specific packages
-for example), and the file system structure of your computer.
+~.emacs~ file, since it will depend on external packages (LaTeX specific
+packages for example), and the file system structure of your computer.
 
 * The Problem
 
@@ -97,6 +107,7 @@ some programming language.
 In this example I'm going to pick F#, but in your scenario feel free to use the
 language you're more comfortable with.
 
+#+NAME: finance.fsx
 #+BEGIN_SRC fsharp
   let X_0 = 10e3 // 10,000.00 moneys
   let Y   = 1e3  // 1,000 moneys per month
@@ -111,17 +122,34 @@ language you're more comfortable with.
           (previousValue * h) + y
       | _ -> 0
 
-  let resultMoney = calcMoney (X_0) (Y) (H) (N)
+  let main () =
+      let resultMoney = calcMoney (X_0) (Y) (H) (N)
 
-  printfn """
-  Initial money: %.2f
-  Addition per month: %.2f
-  Increase rate per month: %.2f
-  Investment time: %i months
-  Final value: %.2f moneys
-  """ (X_0) (Y) (H) (N) (resultMoney)
+      printfn """
+      Initial money: %.2f
+      Addition per month: %.2f
+      Increase rate per month: %.2f
+      Investment time: %i months
+      Final value: %.2f moneys
+      """ (X_0) (Y) (H) (N) (resultMoney)
+
+  main ()
 #+END_SRC
 
+* Conclusion
 * References
 
+Finally, this last section is used to keep a record of the sources where I found
+most of the information required to create this project.
+
 [1] - https://en.wikipedia.org/wiki/Literate_programming
+
+[2] - https://orgmode.org/manual/Extracting-Source-Code.html
+
+[3] - https://orgmode.org/worg/org-contrib/babel/intro.html
+
+[4] - https://www.offerzen.com/blog/literate-programming-empower-your-writing-with-emacs-org-mode
+
+[5] - http://howardism.org/Technical/Emacs/literate-programming-tutorial.html
+
+[6] - https://orgmode.org/manual/Working-with-Source-Code.html
