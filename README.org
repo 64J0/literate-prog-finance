@@ -39,9 +39,13 @@ When creating this example I used those software versions:
 + GNU Emacs 28.2.
 + The ~.emacs~ configuration mentioned in this repository release: [[https://github.com/64J0/Emacs-config/tree/v1.0.0][link]].
 
-Disclosure: some configurations will not work, even if you have the same
+Disclaimer 1: Some configurations will not work, even if you have the same
 ~.emacs~ file, since it will depend on external packages (LaTeX specific
 packages for example), and the file system structure of your computer.
+
+Disclaimer 2: This document is better understand if you download the ~.org~ file
+and open it in Emacs. This way you'll can see the outputs and some org
+configurations.
 
 * The Problem
 
@@ -98,22 +102,85 @@ z_n & = z_{n-1} \times h + y\\
 The objective of this problem is, then, to discover how much money this person
 will have after $n$ months in this investment adding $y$ moneys each month.
 
+For this specific example, I'm going to assume some values for the
+variables. Those are shown in the following table:
+
+| Symbol | Value     | Interpretation         |
+|--------+-----------+------------------------|
+| $x_0$  | 10.000,00 | 10k initial moneys     |
+| $y$    | 1.000,00  | add 1k money per month |
+| $h$    | 1,01      | 1% profitability       |
+| $n$    | 120       | 10 years = 120 months  |
+
 * The Solution
 
 The solution for this problem is pretty straightforward since we already have
 derived the equations for it. Now it's just a matter of implementing it using
 some programming language.
 
-In this example I'm going to pick F#, but in your scenario feel free to use the
-language you're more comfortable with.
+Initially, my idea was to present only the F# solution in this file, but after
+testing some combinations of headers and other features (references [2], [3] and
+[6]), I noticed that the current interpreter for the F# block of code is not
+working properly in my system.
 
-#+NAME: finance.fsx
+In the results I'm getting along the final string, the source code again and
+some annotations which are common when dealing with the ~dotnet fsi~.
+
+Due to it, instead of presenting only the F# block, I'm also going to present
+the Python block, which implements the same algorithm.
+
+** Python Solution
+
+When using Python, it's a bit tricky to make it to show the result of the print
+statement. In order to fix it, I found [[https://emacs.stackexchange.com/a/17928][this answer]] in Stack Exchange pointing to
+the right header configuration for the block.
+
+#+NAME: finance-py
+#+HEADER: :var X_0=1e4 :var Y=1e3 :var H=1.01 :var N=120
+#+BEGIN_SRC python :results output
+  def calcMoney (x0: float, y: float, h: float, nMonth: int) -> float:
+    if (nMonth == 0):
+      return x0
+    elif (nMonth > 0):
+      previousValue = calcMoney (x0, y, h, nMonth - 1)
+      return ((previousValue * h) + y)
+    else:
+      return 0.0
+
+  def main():
+    resultMoney = calcMoney(X_0, Y, H, N)
+
+    print(f"""
+    Initial money: {format(X_0, '.2f')}
+    Addition per month: {format(Y, '.2f')}
+    Increase rate per month: {format(H, '.2f')}
+    Investment time: {N} months
+    Final value: {format(resultMoney, '.2f')} moneys
+    """)
+
+  main()
+#+END_SRC
+
+#+RESULTS: finance-py
+: 
+:   Initial money: 10000.00
+:   Addition per month: 1000.00
+:   Increase rate per month: 1.01
+:   Investment time: 120 months
+:   Final value: 263042.56 moneys
+:   
+
+** Fsharp Solution
+
+And this is the same algorithm implemented in F#. Notice that the result is way
+more polluted.
+
+In the future I'm going to study more about this problem, and if I manage to
+find a solution I'll update this document.
+
+#+NAME: finance-fsx
+#+HEADER: :var X_0=1e4 :var Y=1e3 :var H=1.01 :var N=120
 #+BEGIN_SRC fsharp
-  let X_0 = 10e3 // 10,000.00 moneys
-  let Y   = 1e3  // 1,000 moneys per month
-  let H   = 1.01 // 1% of increase
-  let N   = 120  // 10 years = 120 months
-
   let rec calcMoney (x0: float) (y: float) (h: float) (nMonth: int): float =
       match nMonth with
       | 0 -> x0
@@ -136,7 +203,61 @@ language you're more comfortable with.
   main ()
 #+END_SRC
 
+#+RESULTS: finance-fsx
+#+begin_example
+let rec calcMoney (x0: float) (y: float) (h: float) (nMonth: int): float =
+    match nMonth with
+    | 0 -> x0
+    | _ when (nMonth > 0) ->
+        let previousValue = calcMoney (x0) (y) (h) (nMonth - 1)
+        (previousValue * h) + y
+    | _ -> 0
+
+let main () =
+    let resultMoney = calcMoney (X_0) (Y) (H) (N)
+
+    printfn """
+    Initial money: %.2f
+    Addition per month: %.2f
+    Increase rate per month: %.2f
+    Investment time: %i months
+    Final value: %.2f moneys
+    """ (X_0) (Y) (H) (N) (resultMoney)
+
+main ();;
+
+    Initial money: 10000.00
+    Addition per month: 1000.00
+    Increase rate per month: 1.01
+    Investment time: 120 months
+    Final value: 263042.56 moneys
+    
+val calcMoney: x0: float -> y: float -> h: float -> nMonth: int -> float
+val main: unit -> unit
+val it: unit = ()
+#+end_example
+
 * Conclusion
+
+Literate programming is something that can have a huge impact in the
+organizations that adopt it, since it's easier to keep the configuration
+documented using it, which makes it easier to onboard other people into the
+system.
+
+The idea to create this repository I got after start reading the book "O homem
+mais rico da Babilônia" from George S. Clason. It made me start thinking more
+about finances, and due to it I decided to calculate how much money I would have
+in some hypothetical scenarios, considering some tips from the author.
+
+While writing this document I noticed how little I know about org-mode and
+babel. Due to it, I started looking deeper into the documentation, trying to
+understand why some parts of the code did not work (F# part).
+
+It was a very cool and challenging situation, and my goal is to keep digging
+into this feature in order to really understand how it works.
+
+With this in mind, I plan to update this file in the future.
+
 * References
 
 Finally, this last section is used to keep a record of the sources where I found
