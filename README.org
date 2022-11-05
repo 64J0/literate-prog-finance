@@ -44,7 +44,7 @@ Disclaimer 1: Some configurations will not work, even if you have the same
 ~.emacs~ file, since it will depend on external packages (LaTeX specific
 packages for example), and the file system structure of your computer.
 
-Disclaimer 2: This document is better understand if you download the ~.org~ file
+Disclaimer 2: This document is better understood if you download the ~.org~ file
 and open it in Emacs. This way you'll can see the outputs and some org
 configurations.
 
