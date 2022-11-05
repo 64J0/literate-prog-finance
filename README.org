@@ -137,7 +137,7 @@ the right header configuration for the block.
 
 #+NAME: finance-py
 #+HEADER: :var X_0=1e4 :var Y=1e3 :var H=1.01 :var N=120
-#+BEGIN_SRC python :results output
+#+BEGIN_SRC python :results output :tangle finance.py
   def calcMoney (x0: float, y: float, h: float, nMonth: int) -> float:
     if (nMonth == 0):
       return x0
@@ -180,7 +180,7 @@ find a solution I'll update this document.
 
 #+NAME: finance-fsx
 #+HEADER: :var X_0=1e4 :var Y=1e3 :var H=1.01 :var N=120
-#+BEGIN_SRC fsharp
+#+BEGIN_SRC fsharp :tangle finance.fsx
   let rec calcMoney (x0: float) (y: float) (h: float) (nMonth: int): float =
       match nMonth with
       | 0 -> x0
