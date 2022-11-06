@@ -254,7 +254,6 @@ val main: unit -> unit
 val it: unit = ()
 #+end_example
 
-
 * Org SRC Blocks
 
 After some time I decided to add this section to store some information related
