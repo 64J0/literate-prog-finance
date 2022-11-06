@@ -254,6 +254,65 @@ val main: unit -> unit
 val it: unit = ()
 #+end_example
 
+As one could see, this solution does not work very well. The result is very
+polluted, as mentioned before.
+
+*** Fsharp in Shell
+
+After testing many combinations of headers for the Fsharp SRC block, I went to
+the package repository in GitHub and asked the author about this behavior.
+
+You can find more details in this link: [[https://github.com/juergenhoetzel/ob-fsharp/issues/1][issue 1]].
+
+In essence, he confirmed that it was happening in his setup as well, and there
+is not a good solution yet.
+
+Knowing this, I started thinking in other ways to run the script. My first idea
+was to use the ~shell SRC block~ with the right [[https://en.wikipedia.org/wiki/Shebang_(Unix)][shebang]], pointing to the Fsharp
+interpreter (~fsi~).
+
+The block:
+
+#+NAME: finance-shebang-fsx
+#+BEGIN_SRC shell :shebang "#!/usr/bin/env -S dotnet fsi"
+  # fsharp code directly:
+  printfn "abc"
+#+END_SRC
+
+#+RESULTS: finance-shebang-fsx
+
+Unfortunately, this configuration did not work.
+
+One can read more about the shebang configuration in [[https://learn.microsoft.com/en-us/dotnet/fsharp/whats-new/fsharp-6#f-tooling-pin-the-sdk-version-of-your-f-scripts][this link]], from the .NET 6
+release notes.
+
+Then, I thought about a combination of steps.
+
+First, one must tangle the Fsharp script. Then, he must use the Shell SRC block
+to run the ~FSX~ file and collect the output.
+
+The final block is:
+
+#+NAME: run-fsx
+#+HEADERS: :var fsharp-file="finance.fsx"
+#+BEGIN_SRC shell :var FSHARP_FILE="finance.fsx" :results output
+  set -euo pipefail
+
+  dotnet fsi $FSHARP_FILE
+#+END_SRC
+
+#+RESULTS: run-fsx
+: 
+:     Initial money: 10000.00
+:     Addition per month: 1000.00
+:     Increase rate per month: 1.01
+:     Investment time: 120 months
+:     Final value: 263042.56 moneys
+:     
+
+And this configuration worked properly, although it is not very optimized (you
+need 2 SRC blocks in this scenario).
+
 * Org SRC Blocks
 
 After some time I decided to add this section to store some information related
@@ -293,7 +352,7 @@ headers:
 
 # https://orgmode.org/manual/Tables-in-LaTeX-export.html
 #+NAME: org-src-headers-table
-#+ATTR_LATEX: :environment longtable :align |l|p{6cm}|l|p{3.5cm}| :hline t
+#+ATTR_LATEX: :environment longtable :align |l|p{5cm}|l|p{2cm}| :hline t
 | Header       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Default             | Possible values                                                                                                                                                                                          |
 |--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | :var         | Define variable values to pass the script.                                                                                                                                                                                                                                                                                                                                                                                                                                  | -                   | -                                                                                                                                                                                                        |
