@@ -26,11 +26,11 @@ def main ():
   resultMoney = calcMoney(X_0, Y, H, N)
 
   return f"""
-  Initial money: {format(X_0, '.2f')}
-  Addition per month: {format(Y, '.2f')}
-  Increase rate per month: {format(H, '.2f')}
+  Initial money: {X_0:.2f}
+  Addition per month: {Y:.2f}
+  Increase rate per month: {H:.2f}
   Investment time: {N} months
-  Final value: {format(resultMoney, '.2f')} moneys
+  Final value: {resultMoney:.2f} moneys
   """
 
 return main()
