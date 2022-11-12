@@ -13,12 +13,12 @@ let rec calcMoney (x0: float) (y: float) (h: float) (nMonth: int): float =
 let main () =
     let resultMoney = calcMoney (X_0) (Y) (H) (N)
 
-    printfn """
-    Initial money: %.2f
-    Addition per month: %.2f
-    Increase rate per month: %.2f
-    Investment time: %i months
-    Final value: %.2f moneys
-    """ (X_0) (Y) (H) (N) (resultMoney)
+    printfn $"""
+    Initial money: %.2f{X_0}
+    Addition per month: %.2f{Y}
+    Increase rate per month: %.2f{H}
+    Investment time: %i{N} months
+    Final value: %.2f{resultMoney} moneys
+    """
 
 main ()
